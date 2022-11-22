@@ -1,10 +1,10 @@
 :root {
-  --dark: rgb(20, 20, 20);
-  --yellow: rgb(253, 216, 53);
-  --blue: rgb(98, 0, 234);
+  --dark: #000000;
+  --yellow: #F0A500;
+  --blue: #F4F4F4;
   
-  --c1: rgb(38, 70, 83);
-  --c2: rgb(42, 157, 143);
+  --c1: #F49D1A;
+  --c2: #B01E68;
   
   --left-color: var(--c1);
   --right-color: var(--c2);
@@ -14,19 +14,23 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Patrick Hand', cursive;
+  font-family: 'Roboto Condensed', sans-serif;
   text-decoration: none;
 }
 
-/* .container{
+.get{
+  background-color: white;
+}
+
+.container{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border: 2px solid red;
-} */
+}
 
-/* .flex{
+.flex{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,5 +41,23 @@
 .btns{
   display: flex;
   justify-content: space-around;
-} */
+}
+
+.space-container {
+  /* position: relative; */
+  z-index: 800;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(14.5px);
+  -webkit-backdrop-filter: blur(14.5px);
+}
 

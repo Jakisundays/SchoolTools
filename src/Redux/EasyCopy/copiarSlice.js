@@ -1,54 +1,26 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Configuration, OpenAIApi } from 'openai'
 
-export const getTradX3 = createAsyncThunk('copia/getTradX3',
-    async() => {
-        // Quedamos aqui:
-        //Falta hacer que el contenido sea el state.quote y hay q cambiarlo
-        let contenido = 'Hello my name is Jacob. I like coding'
-        const options = [
-            {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'X-RapidAPI-Key': 'f3c8d2d1a7msh7de89f612a4c0a2p1d77dajsn3158ae64833f',
-                'X-RapidAPI-Host': 'translator82.p.rapidapi.com'
-            },
-            body: `{"language":"es", "text": "${contenido}"}`
-            },
-            {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'X-RapidAPI-Key': 'f3c8d2d1a7msh7de89f612a4c0a2p1d77dajsn3158ae64833f',
-                'X-RapidAPI-Host': 'translator82.p.rapidapi.com'
-            },
-            body: `{"language":"zh", "text": "${contenido}"}`
-            },
-            {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'X-RapidAPI-Key': 'f3c8d2d1a7msh7de89f612a4c0a2p1d77dajsn3158ae64833f',
-                'X-RapidAPI-Host': 'translator82.p.rapidapi.com'
-            },
-            body: `{"language":"en", "text": "${contenido}"}`
-            }
-    ]
-        for(let i = 0; i < options.length; i++){
-            await fetch('https://translator82.p.rapidapi.com/api/translate',options[i])
-            .then(response => response.json())
-            .then((response) => {
-                let contenido = response.result
-                // list.push(contenido)
-                console.log(contenido)
+export const getGpt3 = createAsyncThunk('copia/getGpt3',
+    async(data) => {
+        const configuration = new Configuration({
+            apiKey: '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'
+        })
+        const openai = new OpenAIApi(configuration);
+        try {
+            const response = await openai.createCompletion({
+                prompt: data.pregunta,
+                model: data.modelo,
+                temperature: data.temperature,
             })
-            .catch(err => console.error(err))
+            console.log(response)
+            return response.data.choices[0].text
+        }   catch (error) {
+            console.log('error');
         }
-        return contenido
-
-	// .then(response => console.log(response.result))
     }
 )
+
 
 export const getParaph = createAsyncThunk('copia/getParaphrase',
 async(texto) => {
@@ -85,11 +57,12 @@ export const getPlag = createAsyncThunk('copia/getPlag',
             },
             body: `{"text":"${contenido}","language":"en","includeCitations":false,"scrapeSources":false}`
         };
-       const responde = await fetch('https://plagiarism-checker-and-auto-citation-generator-multi-lingual.p.rapidapi.com/plagiarism', options)
+       return await fetch('https://plagiarism-checker-and-auto-citation-generator-multi-lingual.p.rapidapi.com/plagiarism', options)
             .then(response => response.json())
+            // .then(response => console.log(response))
             .catch(err => console.error(err));
 
-        return responde.percentPlagiarism
+        // return responde.percentPlagiarism
     }
 )
 
@@ -123,12 +96,25 @@ export const copiarSlice = createSlice({
         paraphrased: '',
         traduction: 'none',
         plagio: 0,
+        gptAnswer: '',
         isLoading: false,
         sumIsOpen: false,
+        paraIsOpen: false,
+        plagIsOpen: false,
+        gptIsOpen: false,
     },
     reducers: {
         sumIsOpen: (state) => {
             state.sumIsOpen = !state.sumIsOpen
+        },
+        paraIsOpen: (state) => {
+            state.paraIsOpen = !state.paraIsOpen
+        },
+        plagIsOpen: (state) => {
+            state.plagIsOpen = !state.plagIsOpen
+        },
+        gptIsOpen: (state) => {
+            state.gptIsOpen = !state.gptIsOpen
         },
         reset: (state) => {
             state.quote = ''
@@ -151,26 +137,19 @@ export const copiarSlice = createSlice({
             state.isLoading = false
 
         })
-        .addCase(getTradX3.pending, (state) => {
-            state.isLoading = true
-        })
-        .addCase(getTradX3.fulfilled, (state, action) => {
-            console.log('acciton: ',action)
-            state.isLoading = false
-            state.traduction = action.payload
-        })
-        .addCase(getTradX3.rejected, (state) => {
-            state.isLoading = false
-
-        })
         .addCase(getPlag.pending, (state) => {
             state.isLoading = true
             state.sumCount = null
         })
         .addCase(getPlag.fulfilled, (state, action) => {
             console.log('acciton: ',action)
+            let list = []
             state.isLoading = false
-            state.plagio = action.payload
+            state.plagio = action.payload.percentPlagiarism
+            for(let i = 0; i < action.payload.sources.length; i++){
+                list.push(action.payload.sources[i].url)
+            }
+            state.sources = list
         })
         .addCase(getPlag.rejected, (state) => {
             state.isLoading = false
@@ -183,7 +162,7 @@ export const copiarSlice = createSlice({
         .addCase(getSumText.fulfilled, (state, action) => {
             console.log('acciton: ',action)
             let res = action.payload.summary
-            let resCount = res.split(' ').length
+            let resCount = res.split(' ').filter(word => word !== '').length
             state.isLoading = false
             state.sum = res
             state.sumCount = resCount
@@ -191,18 +170,35 @@ export const copiarSlice = createSlice({
         .addCase(getSumText.rejected, (state) => {
             state.isLoading = false
         })
+        .addCase(getGpt3.pending, (state) => {
+            state.isLoading = true
+            state.sumCount = null
+        })
+        .addCase(getGpt3.fulfilled, (state, action) => {
+            console.log('acciton: ',action)
+            state.isLoading = false
+            state.gptAnswer = action.payload
+        })
+        .addCase(getGpt3.rejected, (state) => {
+            state.isLoading = false
+        })
     }
 })
 
-export const { sumIsOpen, reset } = copiarSlice.actions
+export const { sumIsOpen, paraIsOpen, reset, plagIsOpen, gptIsOpen } = copiarSlice.actions
 
 export const paraphrased = (state) => state.copia.paraphrased
 export const traduction = (state) => state.copia.traduction
 export const plagio = (state) => state.copia.plagio
+export const plagSources = (state) => state.copia.sources
 export const load = (state) => state.copia.isLoading
 export const sumText = (state) => state.copia.sum
 export const sumCount = (state) => state.copia.sumCount
 export const Loading = (state) => state.copia.isLoading
 export const sumView = (state) => state.copia.sumIsOpen
+export const paraView = (state) => state.copia.paraIsOpen
+export const plagView = (state) => state.copia.plagIsOpen
+export const gptView = (state) => state.copia.gptIsOpen
+export const gptResponse = (state) => state.copia.gptAnswer
 
 export default copiarSlice.reducer

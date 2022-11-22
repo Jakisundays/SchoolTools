@@ -1,0 +1,17 @@
+.space-container {
+    /* position: relative; */
+    z-index: 800;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(14.5px);
+    -webkit-backdrop-filter: blur(14.5px);
+}

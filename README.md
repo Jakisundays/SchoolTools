@@ -1,2 +1,2 @@
-# quedamos en copiarSlice - getSumtext
-
+mediaqueries en plagio check y ai
+arregla favicon y titulo

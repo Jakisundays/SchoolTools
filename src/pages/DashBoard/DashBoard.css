@@ -5,12 +5,7 @@ body {
   background-color: black;
 }
 
-.rubik-font {
-  font-family: "Rubik", sans-serif;
-}
-
 main {
-  /* background-image: url("https://images.unsplash.com/photo-1666032234128-abc3e45bd1dc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80"); */
   background-position: center 0%;
   background-size: cover;
   height: 100vh;
@@ -36,24 +31,26 @@ nav {
   margin-top: clamp(2rem, 2vw, 3rem);
   padding: 0rem clamp(1rem, 2vw, 2rem);
   transform: translateY(70%) scale(0.9);
+  overflow-y: scroll;
   transition: transform 500ms cubic-bezier(.13,.53,.38,.97); 
 }
 
 
 #nav-links > .nav-link {
   text-decoration: none;
+
 }
 
 #nav-links > .nav-link > .nav-link-label {
   color: white;
   font-size: 1.25rem;
   margin: 0rem;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 #nav-links > .nav-link > .nav-link-image {
   width: max(20vw, 400px);
-  aspect-ratio: 1.8 / 1;
+  aspect-ratio: 1.7 / 1;
   border-radius: 0.5rem;
   margin-top: 0.75rem;
   object-fit: cover;
@@ -67,7 +64,7 @@ nav {
   left: 50%;
   bottom: 3rem;
   transform: translateX(-50%);
-  background-color: rgb(182, 142, 113);
+  background-color: white;
   border: none;
   border-radius: 5rem;
   outline: none;

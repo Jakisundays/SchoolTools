@@ -1,5 +1,5 @@
 .loader-3 {
-    width: 10em;
+    width: 22vw;
     display: flex;
     justify-content: space-evenly;
   }
@@ -12,23 +12,23 @@
   }
   
   .circle:nth-child(1) {
-    background-color: #90be6d;
+    background-color: #FFE15D;
   }
   
   .circle:nth-child(2) {
-    background-color: #f9c74f;
+    background-color: #F49D1A;
   }
   
   .circle:nth-child(3) {
-    background-color: #f8961e;
+    background-color: #DC3535;
   }
   
   .circle:nth-child(4) {
-    background-color: #f3722c;
+    background-color: #B01E68;
   }
   
   .circle:nth-child(5) {
-    background-color: #f94346;
+    background-color: #9C2C77;
   }
   
   .circle::before {
