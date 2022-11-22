@@ -4,7 +4,7 @@ import { Configuration, OpenAIApi } from 'openai'
 export const getGpt3 = createAsyncThunk('copia/getGpt3',
     async(data) => {
         const configuration = new Configuration({
-            apiKey: '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'
+            apiKey: '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'
         })
         const openai = new OpenAIApi(configuration);
         try {
