@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/SchoolTools/static/css/main.d823aa2a.css",
+    "main.js": "/SchoolTools/static/js/main.be54ea10.js",
+    "static/media/plagioCheck.png": "/SchoolTools/static/media/plagioCheck.f183dc9b25cccfb4e42c.png",
+    "static/media/summary.png": "/SchoolTools/static/media/summary.c2a9e4fb8a6491216260.png",
+    "static/media/Ai.png": "/SchoolTools/static/media/Ai.14c28653c5cecd0fe014.png",
+    "static/media/Paraphraser.png": "/SchoolTools/static/media/Paraphraser.917c435d2ba5aba9de15.png",
+    "index.html": "/SchoolTools/index.html",
+    "main.d823aa2a.css.map": "/SchoolTools/static/css/main.d823aa2a.css.map",
+    "main.be54ea10.js.map": "/SchoolTools/static/js/main.be54ea10.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d823aa2a.css",
+    "static/js/main.be54ea10.js"
+  ]
+}
